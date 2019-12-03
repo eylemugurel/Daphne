@@ -1,0 +1,276 @@
+/*****************************************************************************
+ * Daphne.css
+ *
+ * Revision     : 3.1
+ * Last Changed : March 1, 2019 (12:36)
+ * Author(s)    : Eylem Ugurel
+ *
+ * THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
+ * KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+ */
+/*!Daphne Framework. Copyright (C) 2019 Eylem Ugurel. All rights reserved.*/
+/****************************************************************************/
+
+.smaller { font-size: smaller; }
+.larger { font-size: larger; }
+
+/* Secondary text within a <LABEL>. */
+.sublabel:before {
+	content: "\2002"; /* &ensp; */
+}
+.sublabel {
+	font-weight: normal;
+	font-style: italic;
+	font-size: 85%;
+	color: #777;
+}
+
+/* Required to use <SELECT> inside a Bootstrap input group. */
+.input-group > .input-group-btn > SELECT.btn {
+	width: auto; /* override form-control's 100% */
+	float: none;
+}
+.input-group > .input-group-btn > SELECT.btn:last-child {
+	border-top-right-radius: 4px;
+	border-bottom-right-radius: 4px;
+}
+.input-group-sm > .input-group-btn > SELECT.btn:last-child {
+	border-top-right-radius: 3px;
+	border-bottom-right-radius: 3px;
+}
+.input-group-lg > .input-group-btn > SELECT.btn:last-child {
+	border-top-right-radius: 6px;
+	border-bottom-right-radius: 6px;
+}
+
+/* Fix font size of a <LABEL> when used inside Bootstrap forms. */
+.form-group-sm > LABEL { font-size: 12px; }
+.form-group-lg > LABEL { font-size: 18px; }
+
+/* Work-around <SPAN> element to have multiple inputs inside an input group. */
+.input-group-glue {
+	width: 0;
+	display: table-cell;
+}
+.input-group-glue + .form-control,
+.input-group-glue + .input-group-addon {
+	border-left: none;
+}
+
+/* Badge contextual variations: Doesn't exist in Bootstrap 3; introduced in 4. */
+.badge-default { background-color: #777; }
+.badge-primary { background-color: #337ab7; }
+.badge-success { background-color: #5cb85c; }
+.badge-info { background-color: #5bc0de; }
+.badge-warning { background-color: #f0ad4e; }
+.badge-danger { background-color: #d9534f; }
+
+/* Override Bootstrap to hide `href` attributes from anchors while printing. */
+@media print {
+	a[href]:after {
+		content: none;
+	}
+}
+
+/******************************************************************************
+ * Label
+ *****************************************************************************/
+
+.label-loading {
+	background-image: url('../image/loading-12.gif');
+	background-position: center center;
+	background-repeat: no-repeat;
+}
+
+/******************************************************************************
+ * ToggleButton
+ *****************************************************************************/
+
+ /* Remove border and shadow around a toggle button. */
+ .btn:focus, .btn:active {
+	outline: none !important;
+ }
+
+/******************************************************************************
+ * Input
+ *****************************************************************************/
+
+.input-loading {
+	background-image: url('../image/loading-20.gif');
+	background-position: right 12px center;
+	background-repeat: no-repeat;
+}
+
+/* Drop-down button required extra 4px left shift. */
+SELECT.input-loading {
+	background-position: right 16px center;
+}
+/* Styles for `<select class="smaller">`. */
+SELECT.smaller {
+	height: 24px;
+	padding: 2px 5px;
+}
+SELECT.smaller.input-loading {
+	background-image: url('../image/loading-12.gif');
+	background-position: right 18px center;
+}
+/* Common requirements of a <textarea>. */
+TEXTAREA {
+	font-family: monospace;
+	white-space: pre;
+	overflow: auto;
+	resize: vertical;
+}
+/* A <textarea> is vertically endless. Therefore place the animation at top-right. */
+TEXTAREA.input-loading {
+	background-position: right 16px top 6px;
+}
+
+/******************************************************************************
+ * CheckBox
+ *****************************************************************************/
+
+/* Gray out the label of a disabled checkbox. */
+DIV.checkbox.disabled > LABEL {
+	color: #ccc;
+}
+
+/******************************************************************************
+ * MultiComboBox
+ *****************************************************************************/
+
+/* Makes button text left aligned. */
+.multiselect.dropdown-toggle {
+	text-align: left;
+}
+/* Fix: Force 0 padding which is not marked with `!important` in original
+`bootstrap-multiselect.css`. Without `!important`, dropdown paddings may be
+overridden when the control is used inside any <li>...<a> </a>...</li>. */
+.multiselect-container > LI > A {
+	padding: 0 !important
+}
+/* Trim 10px left padding from <option> items. Original value was 40px. */
+.multiselect-container > LI > A > LABEL {
+	padding-left: 30px !important;
+}
+/* Trim 10px left padding from <optgroup> items. Original value was 20px. */
+.multiselect-container > LI.multiselect-group > A > LABEL {
+	padding-left: 10px !important;
+}
+/* Compatibility for `<select class="smaller">` (Note that `.btn-group` is not
+a child, but adjacent sibling of <select>).  */
+SELECT.smaller + .btn-group > .dropdown-toggle {
+	height: 24px;
+	padding: 2px 10px;
+	font-size: smaller;
+}
+SELECT.smaller + .btn-group > .dropdown-menu {
+	font-size: smaller;
+}
+SELECT.smaller + .btn-group > .multiselect-container > LI > A > LABEL > INPUT[type=checkbox],
+SELECT.smaller + .btn-group > .multiselect-container > LI > A > LABEL > INPUT[type=radio] {
+	/* Fix: When the `smaller` class is applied, checkbox and radio buttons
+	were misaligned vertically with the label. Original 4px top margin is
+	overriden here. */
+	margin-top: 2px;
+}
+
+/******************************************************************************
+ * DateTimeInput
+ *****************************************************************************/
+
+/* Same as .datepicker table tr td.highlighted (only when not selected). */
+.bootstrap-datetimepicker-widget table td.weekend:not(.active) {
+	background-color: #d9edf7;
+	border-radius: 0 !important; /* fix: remove white dots due to radius */
+}
+/* Same as .datepicker table tr td.today (only when not selected).
+   Fix: This selector must come AFTER the selector above. */
+.bootstrap-datetimepicker-widget table td.today:not(.active) {
+	background-color: #ffdb99;
+}
+
+/******************************************************************************
+ * Table
+ *****************************************************************************/
+
+.dataTables_length select {
+	width: auto !important; /* 75px was too long. */
+}
+/* Override Bootstrap's hiding of the clear button. Also show `hand` cursor
+when the mouse is over the cancel button. */
+.dataTables_filter INPUT[type="search"]::-webkit-search-cancel-button {
+	-webkit-appearance: searchfield-cancel-button;
+	cursor: pointer;
+}
+/* Prevent wrapping of buttons in an inline button group. */
+.dataTable .btn-group {
+	display: flex;
+}
+.dataTables_processing {
+	background-color: #FCE883; /* Crayola marker color #85 */
+	background-image: url('../image/loading-20.gif');
+	background-position: right 1em top 1em;
+	background-repeat: no-repeat;
+}
+/* Override sort icons. */
+table.dataTable thead .sorting,
+table.dataTable thead .sorting_asc,
+table.dataTable thead .sorting_desc,
+table.dataTable thead .sorting_asc_disabled,
+table.dataTable thead .sorting_desc_disabled {
+	background: transparent;
+}
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_desc:after,
+table.dataTable thead .sorting:after {
+	float: right;
+	font-family: fontawesome;
+}
+table.dataTable thead .sorting_asc:after {
+	content: "\f0de";
+}
+table.dataTable thead .sorting_desc:after {
+	content: "\f0dd";
+}
+table.dataTable thead .sorting:after {
+	content: "\f0dc";
+	color: rgba(50, 50, 50, 0.5);
+}
+
+/* Override reponsive button's appearance when used inside a dedicated column. */
+table.dataTable.dtr-column > thead > tr > th.control {
+	width: 18px !important;
+}
+table.dataTable.dtr-column > tbody > tr > td.control:before {
+	position: initial; /* was `absolute` */
+	left: 0; /* was `50%` */
+	top: 0; /* was `50%` */
+	margin-left: 0; /* was `-10px` */
+	margin-top: 1px; /* was `-10px` */
+	width: 14px; /* was `16px` */
+	height: 14px; /* was `16px` */
+}
+
+/******************************************************************************
+ * Dialog
+ *
+ * Add `centered` class to a modal dialog (e.g. class="modal centered") to make
+ * it centered horizontally and vertically.
+ *****************************************************************************/
+
+.modal.centered {
+	text-align: center;
+}
+.modal.centered::before {
+	content: "";
+	display: inline-block;
+	height: 100%;
+	vertical-align: middle;
+}
+.modal.centered .modal-dialog {
+	display: inline-block;
+	text-align: left;
+	vertical-align: middle;
+}

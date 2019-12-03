@@ -1,0 +1,39 @@
+/*******************************************************************************
+ * app.css
+ *
+ * Revision     : 1.1
+ * Last Changed : November 28, 2019 (12:12)
+ * Author(s)    : Eylem Ugurel
+ *
+ * THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
+ * KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
+ */
+/*!Daphne Framework. Copyright (C) 2019 Eylem Ugurel. All rights reserved.*/
+/******************************************************************************/
+
+/*******************************************************************************
+ * Bootstrap
+ ******************************************************************************/
+
+BODY {
+	/* As stated by Bootstrap, The navbar will overlay page content, unless you
+	add padding to the top of the body. By default, the navbar is 50px high. */
+	padding-top: 70px;
+}
+
+/* Fine tuning for navbar brand image. */
+.navbar-brand > IMG {
+	display: inline-block; /* Overrides Bootstrap's `display: block`. */
+	height: 20px; /* Same as .navbar-brand's `line-height`. */
+	vertical-align: bottom; /* For more precise vertical alignment. */
+}
+
+/*******************************************************************************
+ * Facebook
+ ******************************************************************************/
+
+/* Fix: Occasionally, the Comments plugin renders its width as `0px`. */
+DIV.fb-comments > SPAN > IFRAME {
+	width: 100% !important;
+}

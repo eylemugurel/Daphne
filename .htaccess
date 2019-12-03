@@ -1,0 +1,15 @@
+<IfModule mod_headers.c>
+	# Security headers
+	Header set X-Frame-Options DENY
+	Header set X-Content-Type-Options nosniff
+	Header set X-XSS-Protection "1; mode=block"
+	# Hide server signature
+	Header unset Server
+	Header unset X-Powered-By
+</IfModule>
+
+<IfModule mod_rewrite.c>
+	RewriteEngine On
+	# Redirect `index.php` to the root
+	RewriteRule ^index\.php$ / [R=301,L]
+</IfModule>
