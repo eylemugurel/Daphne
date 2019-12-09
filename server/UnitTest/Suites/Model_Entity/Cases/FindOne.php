@@ -43,6 +43,18 @@ class FindOne extends \UnitTest\Core\TestCase {
 		self::verify($e !== null);
 		self::verify($e instanceof TestEntity);
 		self::verify($e->ID === 8);
+		// Verify the order.
+		TestEntity::ResetTable();
+		$e = new TestEntity();
+		for ($i = 0; $i < 10; ++$i) {
+			$e->ID = 0;
+			self::verify($e->Save());
+		}
+		$e = TestEntity::FindOne('', 'ID DESC');
+		self::verify($e !== null);
+		self::verify($e instanceof TestEntity);
+		self::verify($e->ID === 10);
+		//
 		TestEntity::DeleteTable();
 	}
 }

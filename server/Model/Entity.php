@@ -224,16 +224,24 @@ abstract class Entity
 	 *
 	 * @param string $condition (optional) A condition. If not specified, the
 	 * first entity is returned.
+	 * @param string $orderBy (optional) Column name followed by optional `ASC`
+	 * or `DESC` keywords. The resulting array is first sorted by the given
+	 * column in ascending or descending order (if no `ASC` or `DESC` keyword
+	 * follows the column name, sorts in ascending order by default. If this
+	 * parameter is not specified, no sorting takes place), then the first
+	 * entity from the result is returned.
 	 * @return If the method succeeds, the return value is an `%Entity` instance.
 	 * @return If the method fails, the return value is `null`.
 	 * @todo Implement `orderBy` parameter.
 	 */
-	public static function FindOne($condition ='')
+	public static function FindOne($condition ='', $orderBy ='')
 	{
 		$qs = sprintf('SELECT * FROM %s',
 			self::toTableName(get_called_class()));
 		if ($condition !== '')
 			$qs .= ' WHERE ' . $condition;
+		if ($orderBy !== '')
+			$qs .= ' ORDER BY ' . $orderBy;
 		$qs .= ' LIMIT 1;';
 		return self::selectOne($qs);
 	}
