@@ -3,8 +3,8 @@
  * @file Table.php
  * Contains the `Table` class.
  *
- * @version 1.0
- * @date    November 30, 2019 (7:35)
+ * @version 1.1
+ * @date    December 14, 2019 (16:41)
  * @author  Eylem Ugurel
  *
  * THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
@@ -66,12 +66,12 @@ class Table extends Element
 	{
 		$this->RemoveChildren();
 		if (count($this->headerContents) > 0) {
+			$head = new TableHead;
 			$row = new TableRow;
 			foreach ($this->headerContents as $headerContent)
 				$row->AddChild(new TableHeaderCell($headerContent));
-			$header = new TableHeader;
-			$header->AddChild($row);
-			$this->AddChild($header);
+			$head->AddChild($row);
+			$this->AddChild($head);
 		}
 		parent::Render();
 	}

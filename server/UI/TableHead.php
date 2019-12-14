@@ -1,10 +1,10 @@
 <?php
 /**
- * @file TableHeader.php
- * Contains the `TableHeader` class.
+ * @file TableHead.php
+ * Contains the `TableHead` class.
  *
- * @version 1.0
- * @date    November 30, 2019 (7:35)
+ * @version 1.1
+ * @date    December 14, 2019 (16:42)
  * @author  Eylem Ugurel
  *
  * THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
@@ -17,9 +17,9 @@
 namespace UI;
 
 /**
- * Represents a table header element.
+ * Represents a table head element.
  */
-class TableHeader extends Element
+class TableHead extends Element
 {
 	/**
 	 * Constructor.
