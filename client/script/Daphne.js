@@ -1,8 +1,8 @@
 //----------------------------------------------------------------------------
 // Daphne.js
 //
-// Revision     : 7.9
-// Last Changed : August 9, 2019 (20:16)
+// Revision     : 8.0
+// Last Changed : December 21, 2019 (11:52)
 // Author(s)    : Eylem Ugurel
 //
 // THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
@@ -1283,12 +1283,28 @@ Form.prototype.OnSubmit = function(callback) {
 //    http://getbootstrap.com/javascript/#modals
 //----------------------------------------------------------------------------
 
-function Dialog(selector)
+function Dialog(selector, parentDialog/*=undefined*/)
 {
 	Element.call(this, selector);
 
+	//#region Private Methods
+	// Fix: After a child dialog is closed, the parent dialog does not re-gain
+	// the focus. This is a known issue with BS modals. As a work-around, focus
+	// to the parent dialog must be set manually. Otherwise, ESC key to close
+	// the parent dialog will not work after a child dialog is dismissed. Note
+	// that, focus must be called from `OnHidden`, not `OnHide`.
+	function setFocusToParentDialog() {
+		parentDialog.Focus();
+	}
+	//#endregion Private Methods
+
 	// Automatically apply JQuery UI's draggable feature.
 	this.$.draggable({ handle: '.modal-header' });
+
+	// Fix: If there is a parent dialog, let it re-gain focus after this dialog
+	// is dismissed.
+	if (parentDialog !== undefined)
+		this.OnHidden(setFocusToParentDialog);
 }
 
 Element.Inherit(Dialog, Element);
