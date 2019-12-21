@@ -3,8 +3,8 @@
  * @file Token.php
  * Contains the `Token` class.
  *
- * @version 1.0
- * @date    October 29, 2019 (3:04)
+ * @version 1.1
+ * @date    December 21, 2019 (9:28)
  * @author  Eylem Ugurel
  *
  * THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
@@ -60,12 +60,10 @@ class Token
 	 * Creates a cookie value from the token value.
 	 *
 	 * @return The created cookie value.
-	 * @todo Comment-in the strrev implementation after the new routing
-	 * mechanism is introduced.
 	 */
 	public function GetCookieValue()
 	{
-		return /*strrev(*/base64_encode(Password::Hash($this->value))/*)*/;
+		return strrev(base64_encode(Password::Hash($this->value)));
 	}
 
 	/**
@@ -73,12 +71,10 @@ class Token
 	 *
 	 * @return If the token value and cookie value match, the function returns
 	 * `true`; otherwise, `false`.
-	 * @todo Comment-in the strrev implementation after the new routing
-	 * mechanism is introduced.
 	 */
 	public function MatchCookieValue($cookieValue)
 	{
-		return Password::Verify($this->value, base64_decode(/*strrev(*/$cookieValue/*)*/));
+		return Password::Verify($this->value, base64_decode(strrev($cookieValue)));
 	}
 
 	/**
