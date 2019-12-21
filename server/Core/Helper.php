@@ -3,8 +3,8 @@
  * @file Helper.php
  * Contains the `Helper` class.
  *
- * @version 3.6
- * @date    June 25, 2019 (21:01)
+ * @version 3.7
+ * @date    December 21, 2019 (8:54)
  * @author  Eylem Ugurel
  *
  * THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
@@ -21,23 +21,6 @@ namespace Core;
  */
 class Helper
 {
-	/**
-	 * Returns the value of a key in an array, or if not found, returns the
-	 * provided default value.
-	 *
-	 * @param array $array The array to return the value from.
-	 * @param $key The key to lookup.
-	 * @param $defaultValue The default value to return if the key does not exist.
-	 * @return The found value or the provided default value.
-	 * @todo Rename to `GetArrayValueOrDefault`.
-	 */
-	public static function ArrayValueOrDefault($array, $key, $defaultValue ='')
-	{
-		return is_array($array) && array_key_exists($key, $array)
-			? $array[$key]
-			: $defaultValue;
-	}
-
 	/**
 	 * Checks whether a string starts with another string.
 	 *
