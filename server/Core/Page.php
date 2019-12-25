@@ -597,7 +597,7 @@ class Page
 		foreach ($this->libraries as $name) {
 			switch ($name)
 			{
-			case 'MultiComboBox':
+			case 'MultiSelect':
 				self::renderLibraryStylesheetLink('bootstrap-multiselect-0.9.15/css/bootstrap-multiselect');
 				break;
 			case 'DateInput':
@@ -706,7 +706,7 @@ class Page
 				echo sprintf("\t\t<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','%s','auto');ga('send','pageview');</script>\n",
 					Config::GOOGLE_ANALYTICS_TRACKING_ID);
 				break;
-			case 'MultiComboBox':
+			case 'MultiSelect':
 				self::renderLibraryJavascriptLink('bootstrap-multiselect-0.9.15/js/bootstrap-multiselect');
 				break;
 			case 'FileInput':

@@ -17,8 +17,8 @@
 //     ToggleButton
 //   Input
 //     CheckBox
-//     ComboBox
-//     MultiComboBox
+//     Select
+//     MultiSelect
 //     FileInput
 //     DateInput
 //     DateTimeInput
@@ -395,50 +395,50 @@ CheckBox.prototype.OnClick = function(callback) {
 }
 
 //----------------------------------------------------------------------------
-//  ComboBox < Input < Element
+//  Select < Input < Element
 //
 //  Represents a <select> element.
 //----------------------------------------------------------------------------
 
-function ComboBox(selector)
+function Select(selector)
 {
 	Input.call(this, selector);
 }
 
-Element.Inherit(ComboBox, Input);
+Element.Inherit(Select, Input);
 
 // Attributes
-ComboBox.prototype.SetText = function(text) { // override
+Select.prototype.SetText = function(text) { // override
 	this.$.find('option').filter(function() {
 		return $(this).text() === text;
 	}).prop('selected', true);
 }
-ComboBox.prototype.GetText = function() { // override
+Select.prototype.GetText = function() { // override
 	return this.$.find('option:selected').text();
 }
-ComboBox.prototype.SetPlaceholder = function(text) {
+Select.prototype.SetPlaceholder = function(text) {
 	// Requires '<option selected>' as the first child.
 	this.$.find('option:first').text(text);
 }
 
 // Operations
-ComboBox.prototype.AddItem = function(value, text) {
+Select.prototype.AddItem = function(value, text) {
 	this.GetDOMElement().options.add(new Option(text, value));
 }
-ComboBox.prototype.UpdateItem = function(value, text) {
+Select.prototype.UpdateItem = function(value, text) {
 	this.$.find('option[value="' + value + '"]').text(text);
 }
-ComboBox.prototype.RemoveItem = function(value) {
+Select.prototype.RemoveItem = function(value) {
 	this.$.find('option[value="' + value + '"]').remove();
 }
-ComboBox.prototype.RemoveItems = function(hasPlaceholder/*=false*/) {
+Select.prototype.RemoveItems = function(hasPlaceholder/*=false*/) {
 	var q = hasPlaceholder ? 'option:not(:first)' : 'option';
 	this.$.find(q).remove();
 	// Fix: Whether or not there is a placeholder, make the first item
 	// selected.
 	this.$.find('option:first').prop('selected', true);
 }
-ComboBox.prototype.SortItems = function() {
+Select.prototype.SortItems = function() {
 	// Fix: Since option list is detached and re-attached, selected value must
 	// be backed up and then restored.
 	var value = this.GetValue();
@@ -449,7 +449,7 @@ ComboBox.prototype.SortItems = function() {
 	options.appendTo(this.$);
 	this.SetValue(value);
 }
-ComboBox.prototype.Populate = function(items, hasPlaceholder/*=false*/) {
+Select.prototype.Populate = function(items, hasPlaceholder/*=false*/) {
 	this.RemoveItems(hasPlaceholder);
 	for (var i = 0, ii = items.length; i < ii; ++i) {
 		var item = items[i];
@@ -458,7 +458,7 @@ ComboBox.prototype.Populate = function(items, hasPlaceholder/*=false*/) {
 }
 
 //----------------------------------------------------------------------------
-//  MultiComboBox < Input < Element
+//  MultiSelect < Input < Element
 //
 //  Represents <select> element extended with `bootstrap-multiselect` widget.
 //
@@ -466,17 +466,17 @@ ComboBox.prototype.Populate = function(items, hasPlaceholder/*=false*/) {
 //    http://davidstutz.de/bootstrap-multiselect/
 //----------------------------------------------------------------------------
 
-function MultiComboBox(selector, settings/*=MultiComboBox.DefaultSettings*/)
+function MultiSelect(selector, settings/*=MultiSelect.DefaultSettings*/)
 {
 	Input.call(this, selector);
 
-	this.$.multiselect(Helper.MergeObjects(MultiComboBox.DefaultSettings, settings));
+	this.$.multiselect(Helper.MergeObjects(MultiSelect.DefaultSettings, settings));
 }
 
-Element.Inherit(MultiComboBox, Input);
+Element.Inherit(MultiSelect, Input);
 
 // Static Variables
-MultiComboBox.DefaultSettings = {
+MultiSelect.DefaultSettings = {
 	buttonWidth: '100%',
 	nonSelectedText: 'Seçiniz',
 	allSelectedText: 'Tümü',
@@ -486,7 +486,7 @@ MultiComboBox.DefaultSettings = {
 }
 
 // Attributes
-MultiComboBox.prototype.GetBitmask = function() {
+MultiSelect.prototype.GetBitmask = function() {
 	var bitmask = 0;
 	var values = this.GetValue(); // returns checked values as an array.
 	for (var i = 0, ii = values.length; i < ii; ++i)
@@ -495,7 +495,7 @@ MultiComboBox.prototype.GetBitmask = function() {
 }
 
 // Operations
-MultiComboBox.prototype.SetCheckedAll = function(checked) {
+MultiSelect.prototype.SetCheckedAll = function(checked) {
 	if (checked)
 		this.$.multiselect('selectAll', false);
 	else
