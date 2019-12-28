@@ -3,8 +3,8 @@
  * @file Page.php
  * Contains the `Page` class.
  *
- * @version 2.4
- * @date    November 1, 2019 (3:31)
+ * @version 2.5
+ * @date    December 28, 2019 (16:51)
  * @author  Eylem Ugurel
  *
  * THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
@@ -30,6 +30,13 @@ class Page
 	 * The value of the `content` attribute of the 'viewport' meta tag.
 	 */
 	const VIEWPORT_META_CONTENT = 'width=device-width,maximum-scale=1,user-scalable=no';
+
+	/**
+	 * To emulate hard-refresh (Ctrl+F5) on a web browser, increment this number.
+	 * This value will be rendered as the query parameter as `v` for the all
+	 * stylesheet and javascript files (e.g. 'index.min.js?v=17').
+	 */
+	const CLIENT_SCRIPT_VERSION = 1;
 
 	/**
 	 * Holds the `Model::Account` object of the currently authenticated user,
@@ -675,7 +682,7 @@ class Page
 			return;
 		}
 		echo sprintf("\t\t<link rel=\"stylesheet\" href=\"%s?v=%d\">\n",
-			$filename, Config::CLIENT_SCRIPT_VERSION);
+			$filename, self::CLIENT_SCRIPT_VERSION);
 	}
 
 	/**
@@ -870,7 +877,7 @@ class Page
 			return;
 		}
 		echo sprintf("\t\t<script type=\"text/javascript\" src=\"%s?v=%d\"></script>\n",
-			$filename, Config::CLIENT_SCRIPT_VERSION);
+			$filename, self::CLIENT_SCRIPT_VERSION);
 	}
 }
 ?>

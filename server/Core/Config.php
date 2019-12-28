@@ -3,8 +3,8 @@
  * @file Config.php
  * Contains the `Config` class.
  *
- * @version 3.7
- * @date    November 1, 2019 (19:55)
+ * @version 3.8
+ * @date    December 28, 2019 (16:54)
  * @author  Eylem Ugurel
  *
  * THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
@@ -184,13 +184,6 @@ class Config
 	 * Allowed minimum length of a password.
 	 */
 	const MIN_PASSWORD_LENGTH = 6;
-
-	/**
-	 * To emulate hard-refresh (Ctrl+F5) on a web browser, increment this number.
-	 * This value will be rendered as the query parameter as `v` for the all
-	 * stylesheet and javascript files (e.g. 'index.min.js?v=42').
-	 */
-	const CLIENT_SCRIPT_VERSION = 1;
 
 	/**
 	 * Facebook app id to be used by Facebook SDK.
