@@ -1,8 +1,8 @@
 //----------------------------------------------------------------------------
 // Daphne.js
 //
-// Revision     : 8.1
-// Last Changed : December 21, 2019 (9:18)
+// Revision     : 8.2
+// Last Changed : December 28, 2019 (18:35)
 // Author(s)    : Eylem Ugurel
 //
 // THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
@@ -1722,5 +1722,10 @@ var Helper =
 		        .replace(/&apos;/g, "'").replace(/&#039;/g, "'")
 		        .replace(/&lt;/g, '<')
 		        .replace(/&gt;/g, '>');
+	},
+	IsBrowserTouchCapable: function() {
+		return ('ontouchstart' in window)
+		    || window.navigator.maxTouchPoints > 0
+		    || window.navigator.msMaxTouchPoints > 0;
 	}
 }
