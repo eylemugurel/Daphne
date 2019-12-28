@@ -1,8 +1,8 @@
 //----------------------------------------------------------------------------
 // Daphne.js
 //
-// Revision     : 8.0
-// Last Changed : December 21, 2019 (11:52)
+// Revision     : 8.1
+// Last Changed : December 21, 2019 (9:18)
 // Author(s)    : Eylem Ugurel
 //
 // THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
@@ -28,6 +28,7 @@
 //   Tab
 //   Flip
 //   Rating
+//   TimeAgo
 //   Table
 //   Map
 //   Form
@@ -920,6 +921,24 @@ Rating.DefaultSettings = {
 Rating.prototype.OnSet = function(callback) { // (e, data)
 	this.OnEvent('rateyo.set', callback);
 }
+
+//----------------------------------------------------------------------------
+//  TimeAgo < Element
+//
+//  Represents `timeago` plugin for jQuery.
+//
+//  See
+//    https://github.com/rmm5t/jquery-timeago
+//----------------------------------------------------------------------------
+
+function TimeAgo(selector)
+{
+	Element.call(this, selector);
+
+	this.$.timeago();
+}
+
+Element.Inherit(TimeAgo, Element);
 
 //----------------------------------------------------------------------------
 //  Table < Element
