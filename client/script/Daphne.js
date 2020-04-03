@@ -1,8 +1,8 @@
 //----------------------------------------------------------------------------
 // Daphne.js
 //
-// Revision     : 8.2
-// Last Changed : December 28, 2019 (18:35)
+// Revision     : 8.3
+// Last Changed : April 3, 2020 (19:40)
 // Author(s)    : Eylem Ugurel
 //
 // THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
@@ -43,7 +43,7 @@
 // Controller
 // Helper
 //
-/*!Daphne Framework. Copyright (C) 2019 Eylem Ugurel. All rights reserved.*/
+/*!Daphne Framework. Copyright (C) 2020 Eylem Ugurel. All rights reserved.*/
 //----------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------
@@ -746,8 +746,9 @@ Autocomplete.DefaultSettings = {
 		text.toLocaleLowerCase(DAPHNE_LANGUAGE),
 		this.query.toLocaleLowerCase(DAPHNE_LANGUAGE)); },
 		// default handler was highlighting all.
-	displayText: function(item) { return item.Name; },
+	displayText: function(item) { return Helper.DecodeHtmlEntities(item.Name); },
 		// default handler was looking for `.name` (JavaScript is case-sensitive).
+		// Also, the html-encoded form of a string must be decoded.
 	fitToElement: true
 		// default was `false` which widens to the longest match.
 }
