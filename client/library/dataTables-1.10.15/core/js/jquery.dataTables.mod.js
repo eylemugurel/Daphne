@@ -4207,6 +4207,7 @@
 			var n = features.f;
 			var val = !this.value ? "" : this.value; // mental IE8 fix :-(
 			//<mod
+			val = val.replace(/^\s+|\s+$/g,'');
 			val = val.replace(/ı/g, 'I').replace(/İ/g, 'i');
 			//>
 	
