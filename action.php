@@ -21,20 +21,21 @@
  * @note If a specified action name is not in the list, the server responds
  * with Core::Error::INVALID_ACTION_NAME in the form of Core::Response::Error.
  *
- * @version 2.7
- * @date    October 27, 2019 (13:45)
+ * @version 2.8
+ * @date    June 7, 2020 (23:06)
  * @author  Eylem Ugurel
  *
  * THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
  * KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
  *
- * Copyright (C) 2019 Eylem Ugurel. All rights reserved.
+ * Copyright (C) 2020 Eylem Ugurel. All rights reserved.
  */
 
 require 'autoload.php';
 
 $action = null;
+
 switch (Core\GETParameter::Find('action'))
 {
 case 'Dummy':
@@ -90,6 +91,7 @@ case 'UpdatePassword':
 		->AddPOSTParameter('NewPassword');
 	break;
 }
+
 if ($action !== null)
 	echo $action->Dispatch();
 else

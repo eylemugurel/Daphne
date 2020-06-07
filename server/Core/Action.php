@@ -3,15 +3,15 @@
  * @file Action.php
  * Contains the `Action` class.
  *
- * @version 1.3
- * @date    November 30, 2019 (17:30)
+ * @version 1.4
+ * @date    June 8, 2020 (01:03)
  * @author  Eylem Ugurel
  *
  * THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
  * KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
  *
- * Copyright (C) 2019 Eylem Ugurel. All rights reserved.
+ * Copyright (C) 2020 Eylem Ugurel. All rights reserved.
  */
 
 namespace Core;
@@ -79,6 +79,16 @@ class Action
 	public function AddConstantParameter($value)
 	{
 		$this->addParameter(new ConstantParameter($value));
+		return $this;
+	}
+
+	/**
+	 *
+	 * @return This instance.
+	 */
+	public function AddLoggedInAccountIdParameter()
+	{
+		$this->addParameter(new LoggedInAccountIdParameter());
 		return $this;
 	}
 
