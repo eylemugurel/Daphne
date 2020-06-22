@@ -3,15 +3,15 @@
  * @file Page.php
  * Contains the `Page` class.
  *
- * @version 2.5
- * @date    December 28, 2019 (16:51)
+ * @version 2.6
+ * @date    June 22, 2020 (20:43)
  * @author  Eylem Ugurel
  *
  * THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
  * KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
  *
- * Copyright (C) 2019 Eylem Ugurel. All rights reserved.
+ * Copyright (C) 2020 Eylem Ugurel. All rights reserved.
  */
 
 namespace Core;
@@ -705,7 +705,7 @@ class Page
 			{
 			case 'FacebookSDK':
 				if (Config::DEBUG) break; // Not available in the debug mode.
-				echo sprintf("\t\t<div id='fb-root'></div><script id='facebook-jssdk' src='https://connect.facebook.net/%s/sdk.js#xfbml=1&version=v3.2&appId=%s'></script>\n",
+				echo sprintf("\t\t<div id=\"fb-root\"></div><script async defer crossorigin=\"anonymous\" src=\"https://connect.facebook.net/%s/sdk.js#xfbml=1&version=v7.0&appId=%s\" nonce=\"KHcoWTNW\"></script>\n",
 					Config::LANGUAGE_EX, Config::FACEBOOK_APP_ID);
 				break;
 			case 'GoogleAnalytics':
