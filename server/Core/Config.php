@@ -256,6 +256,15 @@ class Config
 	}
 
 	/**
+	 * Gets the path to the cache directory.
+	 *
+	 * @return A string specifying a directory path.
+	 */
+	public static function GetCacheDirectory() {
+		return self::DIRECTORY_SERVER . '/cache';
+	}
+
+	/**
 	 * Gets the list of words that are prohibited in usernames.
 	 *
 	 * @return An array of strings.
