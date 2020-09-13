@@ -29,7 +29,8 @@ namespace UI;
  *     <span class="text-warning">Facebook Comments Plugin is not available in the debug mode.</span>
  *
  * @note This element requires the `FacebookSDK` library to be added to the
- * page object. This can be done through the Core::Page::AddLibrary method.
+ * page object. This can be done through the `Core::Page::AddLibrary` method.
+ * The `Core::Config::FACEBOOK_APP_ID` variable must also contain a valid value.
  *
  * @see https://developers.facebook.com/docs/plugins/comments/
  */

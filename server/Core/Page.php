@@ -3,8 +3,8 @@
  * @file Page.php
  * Contains the `Page` class.
  *
- * @version 2.6
- * @date    June 22, 2020 (20:43)
+ * @version 2.7
+ * @date    September 13, 2020 (10:41)
  * @author  Eylem Ugurel
  *
  * THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
@@ -712,6 +712,11 @@ class Page
 				if (Config::DEBUG) break; // Not available in the debug mode.
 				echo sprintf("\t\t<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');ga('create','%s','auto');ga('send','pageview');</script>\n",
 					Config::GOOGLE_ANALYTICS_TRACKING_ID);
+				break;
+			case 'Disqus':
+				if (Config::DEBUG) break; // Not available in the debug mode.
+				echo sprintf("\t\t<script src=\"https://%s.disqus.com/embed.js\" data-timestamp=\"%.0f\"></script>\n",
+					Config::DISQUS_SHORTNAME, round(microtime(true)*1000));
 				break;
 			case 'MultiSelect':
 				self::renderLibraryJavascriptLink('bootstrap-multiselect-0.9.15/js/bootstrap-multiselect');

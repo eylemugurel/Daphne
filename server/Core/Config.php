@@ -3,15 +3,15 @@
  * @file Config.php
  * Contains the `Config` class.
  *
- * @version 3.8
- * @date    December 28, 2019 (16:54)
+ * @version 3.9
+ * @date    September 13, 2020 (9:56)
  * @author  Eylem Ugurel
  *
  * THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
  * KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
  *
- * Copyright (C) 2019 Eylem Ugurel. All rights reserved.
+ * Copyright (C) 2020 Eylem Ugurel. All rights reserved.
  */
 
 namespace Core;
@@ -171,21 +171,6 @@ class Config
 	const DIRECTORY_SERVER = 'server';
 
 	/**
-	 * List of words that are prohibited in usernames.
-	 *
-	 * @note Words specified here <i>must</i> be in lower case.
-	 */
-	private static $RESTRICTED_USERNAME_WORDS = array(
-		'admin',
-		'moderator'
-	);
-
-	/**
-	 * Allowed minimum length of a password.
-	 */
-	const MIN_PASSWORD_LENGTH = 6;
-
-	/**
 	 * Facebook app id to be used by Facebook SDK.
 	 */
 	const FACEBOOK_APP_ID = '';
@@ -194,6 +179,42 @@ class Config
 	 * Google Analytics tracking id to be used by Google Analytics SDK.
 	 */
 	const GOOGLE_ANALYTICS_TRACKING_ID = '';
+
+	/**
+	 * This is used to uniquely identify your website on Disqus.
+	 */
+	const DISQUS_SHORTNAME = '';
+
+	/**
+	 * Allowed minimum length of a password.
+	 */
+	const MIN_PASSWORD_LENGTH = 6;
+
+	/**
+	 * Gets the list of words that are prohibited in usernames.
+	 *
+	 * @return An array of strings.
+	 *
+	 * @note Words specified here <i>must</i> be in lower case.
+	 */
+	public static function GetRestrictedUsernameWords() {
+		return array('admin', 'moderator');
+	}
+
+	/**
+	 * Gets the URL of the logo image file.
+	 *
+	 * @param bool $isAbsolute If this parameter is `true`, then the function
+	 * returns a full URL, one which starts with a scheme followed by the host
+	 * name (e.g. "http://example.com/client/image/logo.jpg"). Otherwise, the
+	 * return value is relative to the base path (e.g. "client/image/logo.jpg").
+	 * @return A string specifying an URL.
+	 */
+	public static function GetLogoImageURL($isAbsolute =false) {
+		$result = $isAbsolute ? Server::GetBaseURL() : '';
+		$result .= self::GetClientImageDirectory() . '/logo.png';
+		return $result;
+	}
 
 	/**
 	 * Gets the path to the client-side image directory.
@@ -223,21 +244,6 @@ class Config
 	}
 
 	/**
-	 * Gets the URL of the logo image file.
-	 *
-	 * @param bool $isAbsolute If this parameter is `true`, then the function
-	 * returns a full URL, one which starts with a scheme followed by the host
-	 * name (e.g. "http://example.com/client/image/logo.jpg"). Otherwise, the
-	 * return value is relative to the base path (e.g. "client/image/logo.jpg").
-	 * @return A string specifying an URL.
-	 */
-	public static function GetLogoImageURL($isAbsolute =false) {
-		$result = $isAbsolute ? Server::GetBaseURL() : '';
-		$result .= self::GetClientImageDirectory() . '/logo.png';
-		return $result;
-	}
-
-	/**
 	 * Gets the path to the masterpage directory.
 	 *
 	 * @return A string specifying a directory path.
@@ -262,15 +268,6 @@ class Config
 	 */
 	public static function GetCacheDirectory() {
 		return self::DIRECTORY_SERVER . '/cache';
-	}
-
-	/**
-	 * Gets the list of words that are prohibited in usernames.
-	 *
-	 * @return An array of strings.
-	 */
-	public static function GetRestrictedUsernameWords() {
-		return self::$RESTRICTED_USERNAME_WORDS;
 	}
 }
 ?>
