@@ -9,8 +9,8 @@ use UnitTest\Suites\Core_Page\Classes\TestPage;
 class Description extends \UnitTest\Core\TestCase {
 	public function Run() {
 		$page = new TestPage();
-		// Initial
-		self::verify($page->GetDescription() === '');
+		// Initial: Must contain the default description.
+		self::verify($page->GetDescription() === \Core\Config::DESCRIPTION);
 		// Non-string
 		self::forEachNonString(function($value) use($page) {
 			$page->SetDescription($value);

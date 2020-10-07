@@ -24,6 +24,7 @@ require 'autoload.php';
  */
 $gPage = new Core\Page();
 $gPage->SetDescription(Core\Config::DESCRIPTION);
+$gPage->SetSocialImageUrl(Core\Config::GetLogoImageURL(true));
 $gPage->AddScript('app, index');
 $gPage->AddDialog('error');
 $gPage->SetMasterpage('starter');

@@ -3,8 +3,8 @@
  * @file Page.php
  * Contains the `Page` class.
  *
- * @version 2.7
- * @date    September 13, 2020 (10:41)
+ * @version 2.8
+ * @date    October 6, 2020 (9:14)
  * @author  Eylem Ugurel
  *
  * THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
@@ -29,7 +29,7 @@ class Page
 	/**
 	 * The value of the `content` attribute of the 'viewport' meta tag.
 	 */
-	const VIEWPORT_META_CONTENT = 'width=device-width,maximum-scale=1,user-scalable=no';
+	const DEFAULT_VIEWPORT = 'width=device-width,maximum-scale=1,user-scalable=no';
 
 	/**
 	 * To emulate hard-refresh (Ctrl+F5) on a web browser, increment this number.
@@ -55,7 +55,17 @@ class Page
 	 * of the `<meta name="description">` and `<meta property="og:description">`
 	 * tags.
 	 */
-	private $description = '';
+	private $description = Config::DESCRIPTION;
+
+	/**
+	 * Holds the value of `viewport` meta tag.
+	 */
+	private $viewport = self::DEFAULT_VIEWPORT;
+
+	/**
+	 * Controls whether to include or omit social (open graph) meta tags.
+	 */
+	private $includeSocialMetaTags = true;
 
 	/**
 	 * URL of the image file to use with the social `<meta>` tags. This must be
@@ -98,6 +108,11 @@ class Page
 	private $masterpage = '';
 
 	/**
+	 * Holds the CSS class of the body element.
+	 */
+	private $bodyClass = '';
+
+	/**
 	 * Contains the HTML code to be rendered within the master page.
 	 */
 	private $contents = '';
@@ -109,6 +124,9 @@ class Page
 	 * 3. Initializes #$loggedInAccount.
 	 * 4. Does the necessary redirection.
 	 * 5. Adds built-in metadatas.
+	 * 6. Adds standard libraries such as JQuery, Bootstrap, FontAwesome, and
+	 * Daphne. However, the `RemoveLibrary` method can be used to exclude any of
+	 * them.
 	 *
 	 * @param bool $authorize (optional) Can take one of the following values:
 	 * Value             | Meaning
@@ -169,6 +187,12 @@ class Page
 			// attack, as a prevention, this token mechanism is developed.
 			$this->AddToken(self::LOGOUT_TOKEN_NAME);
 		}
+
+		// Add standard libraries.
+		$this->AddLibrary('JQuery');
+		$this->AddLibrary('Bootstrap');
+		$this->AddLibrary('FontAwesome');
+		$this->AddLibrary('Daphne');
 	}
 
 	/**
@@ -231,6 +255,36 @@ class Page
 	}
 
 	/**
+	 * Sets the viewport.
+	 *
+	 * @param string $value %Page's viewport.
+	 */
+	public function SetViewport($value)
+	{
+		$this->viewport = is_string($value) ? $value : '';
+	}
+
+	/**
+	 * Gets the viewport.
+	 *
+	 * @return The viewport.
+	 */
+	public function GetViewport()
+	{
+		return $this->viewport;
+	}
+
+	/**
+	 * Sets whether to include or omit social (open graph) meta tags.
+	 *
+	 * @param boolean $value `true` or `false`.
+	 */
+	public function IncludeSocialMetaTags($value)
+	{
+		$this->includeSocialMetaTags = $value;
+	}
+
+	/**
 	 * Sets the social image URL.
 	 *
 	 * @param string $socialImageUrl %Page's social image URL. This must be an
@@ -289,6 +343,16 @@ class Page
 	}
 
 	/**
+	 * Removes an item from the #$metas array.
+	 *
+	 * @param string $name Name of a metadata.
+	 */
+	public function RemoveMeta($name)
+	{
+		unset($this->metas[$name]);
+	}
+
+	/**
 	 * Retrieves the content of a metadata.
 	 *
 	 * @param string $name Name of a metadata.
@@ -336,6 +400,16 @@ class Page
 	public function AddLibrary($value)
 	{
 		self::addToArray($this->libraries, $value);
+	}
+
+	/**
+	 * Removes built-in client-side libraries from the page.
+	 *
+	 * @param string $value A string or list of strings separated by commas.
+	 */
+	public function RemoveLibrary($value)
+	{
+		self::removeFromArray($this->libraries, $value);
 	}
 
 	/**
@@ -404,6 +478,17 @@ class Page
 	public function GetMasterpage()
 	{
 		return $this->masterpage;
+	}
+
+	/**
+	 * Sets CSS class of the body element.
+	 *
+	 * @param string $value A CSS class name, or list of CSS class names
+	 * separated by spaces.
+	 */
+	public function SetBodyClass($value)
+	{
+		$this->bodyClass = is_string($value) ? $value : '';
 	}
 
 	/**
@@ -477,7 +562,10 @@ class Page
 		echo "\t\t<link rel=\"shortcut icon\" href=\"favicon.ico\">\n";
 		$this->renderStylesheetLinks();
 		echo "\t</head>\n";
-		echo "\t<body>\n";
+		if ($this->bodyClass === '')
+			echo "\t<body>\n";
+		else
+			echo sprintf("\t<body class=\"%s\">\n", $this->bodyClass);
 		$this->renderContents();
 		$this->renderDialogs();
 		$this->renderJavascriptLinks();
@@ -502,6 +590,19 @@ class Page
 	}
 
 	/**
+	 * Removes a string, or one more strings separated by commas, from an array.
+	 *
+	 * @param array $array Reference to an array to remove from.
+	 * @param string $value A string or list of strings separated by commas.
+	 */
+	private static function removeFromArray(&$array, $value)
+	{
+		if (!is_string($value))
+			return;
+		$array = array_values(array_diff($array, Helper::Split($value, ',')));
+	}
+
+	/**
 	 * Renders the title.
 	 */
 	private function renderTitle()
@@ -519,20 +620,24 @@ class Page
 	private function renderMetaTags()
 	{
 		// Description and viewport meta tags.
-		self::renderMetaTag('description', $this->description === '' ? Config::DESCRIPTION : $this->description);
-		self::renderMetaTag('viewport', self::VIEWPORT_META_CONTENT);
+		if ($this->description !== '')
+			self::renderMetaTag('description', $this->description);
+		if ($this->viewport !== '')
+			self::renderMetaTag('viewport', $this->viewport);
 		// Custom meta tags.
 		foreach ($this->metas as $name => $content)
 			self::renderMetaTag($name, $content);
 		// Open Graph (social) meta tags.
-		if (Config::FACEBOOK_APP_ID !== '')
-			self::renderOgMetaTag('fb:app_id', Config::FACEBOOK_APP_ID);
-		self::renderOgMetaTag('og:url', $this->GetCanonicalURL());
-		self::renderOgMetaTag('og:title', $this->title === '' ? Config::TITLE : $this->title);
-		self::renderOgMetaTag('og:description', $this->description === '' ? Config::DESCRIPTION : $this->description);
-		self::renderOgMetaTag('og:image', $this->socialImageUrl === '' ? Config::GetLogoImageURL(true) : $this->socialImageUrl);
-		self::renderOgMetaTag('og:type', 'website');
-		self::renderOgMetaTag('og:locale', Config::LANGUAGE_EX);
+		if ($this->includeSocialMetaTags === true) {
+			if (Config::FACEBOOK_APP_ID !== '')
+				self::renderOgMetaTag('fb:app_id', Config::FACEBOOK_APP_ID);
+			self::renderOgMetaTag('og:url', $this->GetCanonicalURL());
+			self::renderOgMetaTag('og:title', $this->title);
+			self::renderOgMetaTag('og:description', $this->description);
+			self::renderOgMetaTag('og:image', $this->socialImageUrl);
+			self::renderOgMetaTag('og:type', 'website');
+			self::renderOgMetaTag('og:locale', Config::LANGUAGE_EX);
+		}
 	}
 
 	/**
@@ -596,14 +701,19 @@ class Page
 	 */
 	private function renderStylesheetLinks()
 	{
-		// First, core items...
-		self::renderLibraryStylesheetLink('jquery-ui-1.12.1.custom/jquery-ui');
-		self::renderLibraryStylesheetLink('bootstrap-3.3.7/css/bootstrap');
-		self::renderLibraryStylesheetLink('fontAwesome-4.7.0/css/font-awesome');
-		// Then, optionals...
+		// 1. Libraries
 		foreach ($this->libraries as $name) {
 			switch ($name)
 			{
+			case 'JQuery': // standard
+				self::renderLibraryStylesheetLink('jquery-ui-1.12.1.custom/jquery-ui');
+				break;
+			case 'Bootstrap': // standard
+				self::renderLibraryStylesheetLink('bootstrap-3.3.7/css/bootstrap');
+				break;
+			case 'FontAwesome': // standard
+				self::renderLibraryStylesheetLink('fontAwesome-4.7.0/css/font-awesome');
+				break;
 			case 'MultiSelect':
 				self::renderLibraryStylesheetLink('bootstrap-multiselect-0.9.15/css/bootstrap-multiselect');
 				break;
@@ -647,23 +757,42 @@ class Page
 				self::renderLibraryStylesheetLink('leaflet-1.2.0/plugins/MarkerCluster/MarkerCluster');
 				self::renderLibraryStylesheetLink('leaflet-1.2.0/plugins/MarkerCluster/MarkerCluster.Default');
 				break;
+			// -----------------------------------------------------------------
+			// Paper CSS (https://github.com/cognitom/paper-css)
+			// -----------------------------------------------------------------
+			case 'Paper':
+				self::renderLibraryStylesheetLink('paper-0.4.1/paper');
+				break;
 			}
 		}
-		// Finally...
-		self::renderStylesheetLink('Daphne', Config::GetClientScriptDirectory());
+		// 2. Daphne (standard; must be rendered after libraries)
+		if (in_array('Daphne', $this->libraries))
+			self::renderUserStylesheetLink('Daphne');
+		// 3. User scripts
 		foreach ($this->scripts as $scriptName)
-			self::renderStylesheetLink($scriptName, Config::GetClientScriptDirectory());
+			self::renderUserStylesheetLink($scriptName);
 	}
 
 	/**
-	 * Renders a link to a Cascading Style Sheet (css) file from the client-side
-	 * library.
+	 * Renders a link to a Cascading Style Sheet (css) file in the library
+	 * directory.
 	 *
 	 * @param string $name The name of the file, without the `css` extension.
 	 */
 	private static function renderLibraryStylesheetLink($name)
 	{
 		self::renderStylesheetLink($name, Config::GetClientLibraryDirectory());
+	}
+
+	/**
+	 * Renders a link to a Cascading Style Sheet (css) file in the user script
+	 * directory.
+	 *
+	 * @param string $name The name of the file, without the `css` extension.
+	 */
+	private static function renderUserStylesheetLink($name)
+	{
+		self::renderStylesheetLink($name, Config::GetClientScriptDirectory());
 	}
 
 	/**
@@ -690,19 +819,17 @@ class Page
 	 */
 	private function renderJavascriptLinks()
 	{
-		// First, shims...
-		echo "\t\t<!--[if lt IE 9]>\n";
-		self::renderLibraryJavascriptLink('html5shiv-3.7.3/html5shiv');
-		self::renderLibraryJavascriptLink('respond-1.4.2/respond');
-		echo "\t\t<![endif]-->\n";
-		// Secondly, core items...
-		self::renderLibraryJavascriptLink('jquery-3.2.1/jquery');
-		self::renderLibraryJavascriptLink('jquery-ui-1.12.1.custom/jquery-ui');
-		self::renderLibraryJavascriptLink('bootstrap-3.3.7/js/bootstrap');
-		// Then, optionals...
+		// 1. Libraries
 		foreach ($this->libraries as $name) {
 			switch ($name)
 			{
+			case 'JQuery': // standard
+				self::renderLibraryJavascriptLink('jquery-3.2.1/jquery');
+				self::renderLibraryJavascriptLink('jquery-ui-1.12.1.custom/jquery-ui');
+				break;
+			case 'Bootstrap': // standard
+				self::renderLibraryJavascriptLink('bootstrap-3.3.7/js/bootstrap');
+				break;
 			case 'FacebookSDK':
 				if (Config::DEBUG) break; // Not available in the debug mode.
 				echo sprintf("\t\t<div id=\"fb-root\"></div><script async defer crossorigin=\"anonymous\" src=\"https://connect.facebook.net/%s/sdk.js#xfbml=1&version=v7.0&appId=%s\" nonce=\"KHcoWTNW\"></script>\n",
@@ -850,20 +977,37 @@ class Page
 				break;
 			}
 		}
-		// Finally...
-		self::renderJavascriptLink('Daphne', Config::GetClientScriptDirectory());
+		// 2. Daphne (standard; must be rendered after libraries)
+		if (in_array('Daphne', $this->libraries))
+			self::renderUserJavascriptLink('Daphne');
+		// 3. User scripts
 		foreach ($this->scripts as $scriptName)
-			self::renderJavascriptLink($scriptName, Config::GetClientScriptDirectory());
+			self::renderUserJavascriptLink($scriptName);
+		// 4. Polyfills, shims, etc.
+		echo "\t\t<!--[if lt IE 9]>\n";
+		self::renderLibraryJavascriptLink('html5shiv-3.7.3/html5shiv');
+		self::renderLibraryJavascriptLink('respond-1.4.2/respond');
+		echo "\t\t<![endif]-->\n";
 	}
 
 	/**
-	 * Renders a link to a JavaScript (js) file from the client-side library.
+	 * Renders a link to a JavaScript (js) file in the library directory.
 	 *
 	 * @param string $name The name of the file, without the `js` extension.
 	 */
 	private static function renderLibraryJavascriptLink($name)
 	{
 		self::renderJavascriptLink($name, Config::GetClientLibraryDirectory());
+	}
+
+	/**
+	 * Renders a link to a JavaScript (js) file in the user script directory.
+	 *
+	 * @param string $name The name of the file, without the `js` extension.
+	 */
+	private static function renderUserJavascriptLink($name)
+	{
+		self::renderJavascriptLink($name, Config::GetClientScriptDirectory());
 	}
 
 	/**

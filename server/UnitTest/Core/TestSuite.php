@@ -3,8 +3,8 @@
  * @file TestSuite.php
  * Contains the `TestSuite` abstract class.
  *
- * @version 1.0
- * @date    June 8, 2019 (16:00)
+ * @version 1.1
+ * @date    October 7, 2020 (8:30)
  * @author  Eylem Ugurel
  *
  * THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
@@ -65,8 +65,16 @@ abstract class TestSuite implements ITestSuite
 			try {
 				$case->Run();
 			} catch (\Exception $ex) {
-				$t = $ex->getTrace()[0];
-				\Core\Helper::Output(self::CASE_FAILED_F, $t['line'], basename($t['file']));
+				// Fix: In case the exception is thrown from `TestCase.php`,
+				// scan the callstack to find the file right after TestCase.php
+				// and dump error message for that file only.
+				foreach ($ex->getTrace() as $t) {
+					$fileName = basename($t['file']);
+					if ($fileName === 'TestCase.php')
+						continue;
+					\Core\Helper::Output(self::CASE_FAILED_F, $t['line'], $fileName);
+					break;
+				}
 			}
 		}
 	}
