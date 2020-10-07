@@ -3,8 +3,8 @@
  * @file Cache.php
  * Contains the `Cache` class.
  *
- * @version 1.0
- * @date    September 7, 2020 (21:49)
+ * @version 1.1
+ * @date    October 7, 2020 (12:06)
  * @author  Eylem Ugurel
  *
  * THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
@@ -46,7 +46,20 @@ class Cache
 	}
 
 	/**
-	 * Calculates the filename of a cache item.
+	 * @brief Deletes a cache item.
+	 *
+	 * @param string $key Name of the cache item to remove.
+	 */
+	public static function Clear($key)
+	{
+		$filename = self::filenameOf($key);
+		clearstatcache(false, $filename); // important!
+		if (@is_file($filename))
+			@unlink($filename);
+	}
+
+	/**
+	 * @brief Calculates the filename of a cache item.
 	 *
 	 * @param string $key Name of the cache item to calculate filename for.
 	 * @return A filename.
@@ -57,7 +70,7 @@ class Cache
 	}
 
 	/**
-	 * Checks whether a cache file exists and is not expired.
+	 * @brief Checks whether a cache file exists and is not expired.
 	 *
 	 * @param string $filename Filename of the cache file.
 	 * @param integer $duration Max age (in seconds) of the cache file.
@@ -67,11 +80,13 @@ class Cache
 	private static function isHit($filename, $duration)
 	{
 		clearstatcache(false, $filename); // important!
-		return is_file($filename) && time() - filemtime($filename) < $duration;
+		if (!@is_file($filename))
+			return false;
+		return time() -  (integer)@filemtime($filename) < $duration;
 	}
 
 	/**
-	 * Reads data from a file.
+	 * @brief Reads data from a file.
 	 *
 	 * @param string $filename Path of the file to read data from.
 	 * @return The read data.
@@ -96,7 +111,7 @@ class Cache
 	}
 
 	/**
-	 * Writes data to a file.
+	 * @brief Writes data to a file.
 	 *
 	 * @param string $filename Path of the file to write data to.
 	 * @param string $data Data to write.
