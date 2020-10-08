@@ -3,15 +3,15 @@
  * @file Entity.php
  * Contains the `Entity` class.
  *
- * @version 6.1
- * @date    November 27, 2019 (15:32)
+ * @version 6.2
+ * @date    October 8, 2020 (12:30)
  * @author  Eylem Ugurel
  *
  * THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
  * KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
  *
- * Copyright (C) 2019 Eylem Ugurel. All rights reserved.
+ * Copyright (C) 2020 Eylem Ugurel. All rights reserved.
  */
 
 namespace Model;
@@ -380,6 +380,47 @@ abstract class Entity
 			$qr->free();
 		}
 		return $range;
+	}
+
+	/**
+	 * @brief Removes specified properties from the object.
+	 *
+	 * @param string|array $pns Name, or array of names of properties to remove.
+	 * To remove all properties, specify an empty string or an empty array.
+	 * @remark The `ID` property cannot be removed.
+	 */
+	public function RemoveProperties($pns)
+	{
+		if (is_string($pns)) {
+			foreach ($this as $pn => $pv)
+				if ($pn !== 'ID' && $pn === $pns)
+					unset($this->$pn);
+		} else if (is_array($pns)) {
+			foreach ($this as $pn => $pv)
+				if ($pn !== 'ID' && in_array($pn, $pns))
+					unset($this->$pn);
+		}
+	}
+
+	/**
+	 * @brief Removes properties from the object except the specified ones.
+	 *
+	 * @param string|array $pns Name, or array of names of properties to exclude
+	 * from removal.
+	 * @remark Because the `ID` property cannot be removed, it's unnecessary to
+	 * specify it in the parameter.
+	 */
+	public function RemovePropertiesExcept($pns)
+	{
+		if (is_string($pns)) {
+			foreach ($this as $pn => $pv)
+				if ($pn !== 'ID' && $pn !== $pns)
+					unset($this->$pn);
+		} else if (is_array($pns)) {
+			foreach ($this as $pn => $pv)
+				if ($pn !== 'ID' && !in_array($pn, $pns))
+					unset($this->$pn);
+		}
 	}
 
 	/**
