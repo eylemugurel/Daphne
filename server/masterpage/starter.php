@@ -15,7 +15,7 @@
 					<ul class="nav navbar-nav navbar-right">
 <?php if ($loggedInAccount === null) { ?>
 						<li><a href="register.php"><i class="fa fa-user-plus fa-fw"></i>&nbsp;<?php echo Core\i18n::Get('REGISTER'); ?></a></li>
-						<li><a href="login.php"><i class="fa fa-sign-in fa-fw"></i>&nbsp;<?php echo Core\i18n::Get('LOG_IN'); ?></a></li>
+						<li><a href="login.php?<?php echo Core\Server::BuildRefererQueryParameter(); ?>"><i class="fa fa-sign-in fa-fw"></i>&nbsp;<?php echo Core\i18n::Get('LOG_IN'); ?></a></li>
 <?php } else { ?>
 						<li class="dropdown">
 							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user fa-fw"></i>&nbsp;<?php echo $loggedInAccount->Username; ?>&nbsp;<span class="caret"></span></a>

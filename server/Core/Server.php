@@ -2,15 +2,15 @@
 //----------------------------------------------------------------------------
 // Server.php
 //
-// Revision     : 3.5
-// Last Changed : October 24, 2019 (3:14)
+// Revision     : 3.6
+// Last Changed : October 12, 2020 (19:38)
 // Author(s)    : Eylem Ugurel
 //
 // THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
 // KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED
 // WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
 //
-// Copyright (C) 2019 Eylem Ugurel. All rights reserved.
+// Copyright (C) 2020 Eylem Ugurel. All rights reserved.
 //----------------------------------------------------------------------------
 
 namespace Core;
@@ -72,6 +72,21 @@ class Server
 		if ($y !== '' && $withQuestionMark)
 			$y = '?' . $y;
 		return $y;
+	}
+
+	/**
+	 * @brief Builds a string which is a combination of the current page's file
+	 * name (e.g. `song.php`) including its query string, if any, in url encoded
+	 * form (e.g. `?id=42` encoded to `%3Fid%3D42`).
+	 *
+	 * @return A string specifying referer query parameter, for example:
+	 * @code
+	 * referer=song.php%3Fid%3D42
+	 * @endcode
+	 */
+	public static function BuildRefererQueryParameter()
+	{
+		return 'referer=' . self::GetPageFileName() . rawurlencode(self::GetQueryString());
 	}
 }
 ?>

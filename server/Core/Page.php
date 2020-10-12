@@ -3,8 +3,8 @@
  * @file Page.php
  * Contains the `Page` class.
  *
- * @version 2.8
- * @date    October 6, 2020 (9:14)
+ * @version 2.9
+ * @date    October 12, 2020 (20:03)
  * @author  Eylem Ugurel
  *
  * THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
@@ -123,9 +123,9 @@ class Page
 	 * 2. Deletes all cookies except the session cookie (e.g. "PHPSESSID").
 	 * 3. Initializes #$loggedInAccount.
 	 * 4. Does the necessary redirection.
-	 * 5. Adds built-in metadatas.
+	 * 5. Adds page-level anti-CSRF token for the log-out action.
 	 * 6. Adds standard libraries such as JQuery, Bootstrap, FontAwesome, and
-	 * Daphne. However, the `RemoveLibrary` method can be used to exclude any of
+	 * Daphne. However, the #RemoveLibrary method can be used to exclude any of
 	 * them.
 	 *
 	 * @param bool $authorize (optional) Can take one of the following values:
@@ -162,14 +162,10 @@ class Page
 		else if ($authorize === true)
 		{
 			// If the account is not logged in, issues a redirect to `login.php`
-			// with the current page name as the `referer` query parameter.
-			if ($this->loggedInAccount === null) {
-				// Special characters in the query parameter must be encoded to
-				// make them valid values for the `referer` parameter (e.g.
-				// `/page.php?id=42` becomes `referer=page.php%3Fid%3D42`).
-				$referer = Server::GetPageFileName() . rawurlencode(Server::GetQueryString());
-				exit(header('Location: login.php?referer=' . $referer));
-			}
+			// with the current page name (including its query string, if any,
+			// in url encoded form) as the `referer` query parameter.
+			if ($this->loggedInAccount === null)
+				exit(header('Location: login.php?' . Server::BuildRefererQueryParameter()));
 		}
 
 		// If the account is logged in, then add the log-out token.
@@ -379,7 +375,8 @@ class Page
 	/**
 	 * Adds a new page-level token to be used against CSRF vulnerabilities.
 	 *
-	 * @param string $name (optional) Name of the token.
+	 * @param string $name (optional) Name of the token. If not specified,
+	 * default token name is used.
 	 * @remark This method internally calls #AddMeta with the token name as the
 	 * metadata name, and a randomly generated token as the metadata content.
 	 * It also creates an hash value of the generated token and sends to the
