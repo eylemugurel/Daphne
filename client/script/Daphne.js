@@ -1,8 +1,8 @@
 //----------------------------------------------------------------------------
 // Daphne.js
 //
-// Revision     : 8.3
-// Last Changed : April 3, 2020 (19:40)
+// Revision     : 8.4
+// Last Changed : October 13, 2020 (8:16)
 // Author(s)    : Eylem Ugurel
 //
 // THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
@@ -80,9 +80,7 @@ Element.Construct = function(selector, className/*='Element'*/) {
 	var jq =  $(selector);
 	if (jq.length === 0)
 		return null;
-	if (!className)
-		className = 'Element';
-	return new window[className](jq);
+	return new window[className || 'Element'](jq);
 }
 
 // Attributes
@@ -919,8 +917,10 @@ Rating.DefaultSettings = {
 }
 
 // Events
-Rating.prototype.OnSet = function(callback) { // (e, data)
-	this.OnEvent('rateyo.set', callback);
+Rating.prototype.OnClick = function(callback) {
+	this.OnEvent('rateyo.set', function(e, data) {
+		callback(data.rating);
+	});
 }
 
 //----------------------------------------------------------------------------
@@ -1409,15 +1409,6 @@ function SuccessDialog(jq)
 
 Element.Inherit(SuccessDialog, Dialog);
 
-//#region Static Methods
-SuccessDialog.New = function() {
-	var jq =  $('#SuccessDialog');
-	if (jq.length === 0)
-		return null;
-	return new SuccessDialog(jq);
-}
-//#endregion Static Methods
-
 //----------------------------------------------------------------------------
 //  ErrorDialog < Dialog < Element
 //----------------------------------------------------------------------------
@@ -1448,15 +1439,6 @@ function ErrorDialog(jq)
 }
 
 Element.Inherit(ErrorDialog, Dialog);
-
-//#region Static Methods
-ErrorDialog.New = function() {
-	var jq =  $('#ErrorDialog');
-	if (jq.length === 0)
-		return null;
-	return new ErrorDialog(jq);
-}
-//#endregion Static Methods
 
 //----------------------------------------------------------------------------
 //  ProgressDialog < Dialog < Element
@@ -1586,14 +1568,14 @@ Model.prototype.Post = function(url, data, onSuccess, onComplete) {
 //  Controller
 //
 //  Remarks
-//    If a message dialog is not rendered, falls back to the `alert` function.
+//    If a message dialog was not rendered, falls back to the `alert` function.
 //----------------------------------------------------------------------------
 
 function Controller()
 {
 	//#region Public Variables
-	this.successDialog = SuccessDialog.New();
-	this.errorDialog = ErrorDialog.New();
+	this.successDialog = Element.Construct('#SuccessDialog', 'SuccessDialog');
+	this.errorDialog = Element.Construct('#ErrorDialog', 'ErrorDialog');
 	//#endregion Public Variables
 }
 
