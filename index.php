@@ -17,10 +17,13 @@
 require 'autoload.php';
 
 /**
- * The global page object.
+ * @brief The global page object.
  *
- * The page is initialized without any authorization, which means that it's
+ * The object is initialized without any authorization, which means that it's
  * available for both logged-in and anonymous users.
+ *
+ * @note The name "gPage" for this variable is mandatory because it's referenced
+ * by other components of the framework.
  */
 $gPage = new Core\Page();
 $gPage->SetDescription(Core\Config::DESCRIPTION);
@@ -28,10 +31,12 @@ $gPage->SetSocialImageUrl(Core\Config::GetLogoImageURL(true));
 $gPage->AddScript('app, index');
 $gPage->AddDialog('error');
 $gPage->SetMasterpage('starter');
+
 /**
- * Holds the `Model::Account` object of the currently authenticated user, or
- * `null` if the page is being visited anonymously. Parts of the page get
- * rendered according to this value.
+ * @brief Holds the `Model::Account` object of the logged-in user, or `null` if
+ * the page is being visited anonymously.
+ *
+ * Parts of the page get rendered conditionally according to this value.
  */
 $loggedInAccount = $gPage->GetLoggedInAccount();
 ?>
@@ -39,11 +44,11 @@ $loggedInAccount = $gPage->GetLoggedInAccount();
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
-<?php if ($loggedInAccount === null) { ?>
-					<p><?php echo Core\i18n::Get('HELLO_WORLD'); ?></p>
-<?php } else { ?>
+<?php if ($loggedInAccount !== null): ?>
 					<p><?php echo Core\i18n::Get('HELLO_s', $loggedInAccount->Username); ?></p>
-<?php } ?>
+<?php else: ?>
+					<p><?php echo Core\i18n::Get('HELLO_WORLD'); ?></p>
+<?php endif; ?>
 				</div>
 			</div>
 		</div><!--.container-->
