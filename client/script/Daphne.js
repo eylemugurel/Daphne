@@ -1,8 +1,8 @@
 //----------------------------------------------------------------------------
 // Daphne.js
 //
-// Revision     : 8.4
-// Last Changed : October 13, 2020 (8:16)
+// Revision     : 8.5
+// Last Changed : October 15, 2020 (18:12)
 // Author(s)    : Eylem Ugurel
 //
 // THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
@@ -916,11 +916,20 @@ Rating.DefaultSettings = {
 	ratedFill: 'yellow'
 }
 
+// Attributes
+Rating.prototype.SetValue = function(rating) {
+	this.$.rateYo('rating', rating);
+}
+Rating.prototype.GetValue = function() {
+	return this.$.rateYo('rating');
+}
+
 // Events
 Rating.prototype.OnClick = function(callback) {
-	this.OnEvent('rateyo.set', function(e, data) {
-		callback(data.rating);
-	});
+	// Fix: The 'rateyo.set' event was also triggered even when rating is set
+	// programmatically. Therefore, it's replaced with the 'click' event. The
+	// handler function can call `GetValue` to obtain the updated rating.
+	this.OnEvent('click', callback);
 }
 
 //----------------------------------------------------------------------------
@@ -1388,12 +1397,12 @@ function SuccessDialog(jq)
 
 	//#region Private Variables
 	var me = this;
-	var mOKButton$ = this.$.find('.modal-footer > button');
+	var mOKButton = new Button('.modal-footer > button');
 	//#endregion Private Variables
 
 	//#region Private Methods
 	function onShown() {
-		mOKButton$.focus(); // UX
+		mOKButton.Focus(); // UX
 	}
 	//#endregion Private Methods
 
@@ -1419,12 +1428,12 @@ function ErrorDialog(jq)
 
 	//#region Private Variables
 	var me = this;
-	var mOKButton$ = this.$.find('.modal-footer > button');
+	var mOKButton = new Button('.modal-footer > button');
 	//#endregion Private Variables
 
 	//#region Private Methods
 	function onShown() {
-		mOKButton$.focus(); // UX
+		mOKButton.Focus(); // UX
 	}
 	//#endregion Private Methods
 

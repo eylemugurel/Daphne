@@ -20,11 +20,6 @@ Element.Inherit(PageModel, AppModel);
 function PageController()
 {
 	AppController.call(this);
-
-	//#region Public Methods
-	this.Init = function() {
-	}
-	//#endregion Public Methods
 }
 
 Element.Inherit(PageController, AppController);
@@ -37,6 +32,4 @@ $(document).ready(function()
 {
 	gModel = new PageModel();
 	gController = new PageController();
-
-	gController.Init();
 });
