@@ -39,7 +39,7 @@ class Session
 
 		// Set session cookie to be HttpOnly so that PHPSESSID is not visible
 		// inside document.cookie. Also set cookie as secure if HTTPS is
-		//specified.
+		// specified.
 		$cp = session_get_cookie_params();
 		session_set_cookie_params($cp['lifetime'],
 		                          $cp['path'],

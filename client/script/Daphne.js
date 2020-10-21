@@ -1,8 +1,8 @@
 //----------------------------------------------------------------------------
 // Daphne.js
 //
-// Revision     : 8.5
-// Last Changed : October 15, 2020 (18:12)
+// Revision     : 8.6
+// Last Changed : October 21, 2020 (10:58)
 // Author(s)    : Eylem Ugurel
 //
 // THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
@@ -80,7 +80,17 @@ Element.Construct = function(selector, className/*='Element'*/) {
 	var jq =  $(selector);
 	if (jq.length === 0)
 		return null;
-	return new window[className || 'Element'](jq);
+	className = className || 'Element';
+	if (className.indexOf('.') === -1)
+		return new window[className](jq);
+	else {
+		// Resolve namespace(s) by reduction.
+		var k = className.split('.');
+		var f = window;
+		for (var i = 0, ii = k.length; i < ii; ++i)
+			f = f[k[i]];
+		return new f(jq);
+	}
 }
 
 // Attributes
