@@ -29,36 +29,36 @@ function ForgotPasswordForm()
 Element.Inherit(ForgotPasswordForm, Form);
 
 //////////////////////////////////////////////////////////////////////////////
-//  PageModel < AppModel < Model
+//  PageModel < app.Model < Model
 //
 //
 //////////////////////////////////////////////////////////////////////////////
 
 function PageModel()
 {
-	AppModel.call(this);
+	app.Model.call(this);
 
 	this.SendPasswordResetLink = function(data, onSuccess, onComplete) {
 		this.Post(Model.ActionURL('SendPasswordResetLink'), data, onSuccess, onComplete);
 	}
 }
 
-Element.Inherit(PageModel, AppModel);
+Element.Inherit(PageModel, app.Model);
 
 //////////////////////////////////////////////////////////////////////////////
-//  PageController < AppController < Controller
+//  PageController < app.Controller < Controller
 //
 //
 //////////////////////////////////////////////////////////////////////////////
 
 function PageController()
 {
-	AppController.call(this);
+	app.Controller.call(this);
 
 	mForgotPasswordForm = new ForgotPasswordForm();
 }
 
-Element.Inherit(PageController, AppController);
+Element.Inherit(PageController, app.Controller);
 
 //////////////////////////////////////////////////////////////////////////////
 

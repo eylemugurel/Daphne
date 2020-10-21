@@ -1,16 +1,21 @@
 /*******************************************************************************
  * app.css
  *
- * Revision     : 1.1
- * Last Changed : November 28, 2019 (12:12)
+ * Revision     : 1.2
+ * Last Changed : October 21, 2020 (19:56)
  * Author(s)    : Eylem Ugurel
  *
  * THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
  * KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED
  * WARRANTIES OF MERCHANTABILITY AND/OR FITNESS FOR A PARTICULAR PURPOSE.
  */
-/*!Daphne Framework. Copyright (C) 2019 Eylem Ugurel. All rights reserved.*/
+/*!Daphne Framework. Copyright (C) 2020 Eylem Ugurel. All rights reserved.*/
 /******************************************************************************/
+
+/* Show the hand cursor when the mouse is hovered over the log-out link. */
+#LogOut {
+	cursor: pointer;
+}
 
 /*******************************************************************************
  * Bootstrap

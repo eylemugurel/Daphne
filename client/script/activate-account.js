@@ -23,31 +23,31 @@ function ActivateAccountForm()
 Element.Inherit(ActivateAccountForm, Form);
 
 //////////////////////////////////////////////////////////////////////////////
-//  PageModel < AppModel < Model
+//  PageModel < app.Model < Model
 //
 //
 //////////////////////////////////////////////////////////////////////////////
 
 function PageModel()
 {
-	AppModel.call(this);
+	app.Model.call(this);
 
 	this.ActivateAccount = function(data, onSuccess) {
 		this.Post(Model.ActionURL('ActivateAccount'), data, onSuccess);
 	}
 }
 
-Element.Inherit(PageModel, AppModel);
+Element.Inherit(PageModel, app.Model);
 
 //////////////////////////////////////////////////////////////////////////////
-//  PageController < AppController < Controller
+//  PageController < app.Controller < Controller
 //
 //
 //////////////////////////////////////////////////////////////////////////////
 
 function PageController()
 {
-	AppController.call(this);
+	app.Controller.call(this);
 
 	mActivateAccountForm = new ActivateAccountForm();
 
@@ -56,7 +56,7 @@ function PageController()
 	}
 }
 
-Element.Inherit(PageController, AppController);
+Element.Inherit(PageController, app.Controller);
 
 //////////////////////////////////////////////////////////////////////////////
 

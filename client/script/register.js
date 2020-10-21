@@ -29,36 +29,36 @@ function RegisterForm()
 Element.Inherit(RegisterForm, Form);
 
 //////////////////////////////////////////////////////////////////////////////
-//  PageModel < AppModel < Model
+//  PageModel < app.Model < Model
 //
 //
 //////////////////////////////////////////////////////////////////////////////
 
 function PageModel()
 {
-	AppModel.call(this);
+	app.Model.call(this);
 
 	this.RegisterAccount = function(data, onSuccess, onComplete) {
 		this.Post(Model.ActionURL('RegisterAccount'), data, onSuccess, onComplete);
 	}
 }
 
-Element.Inherit(PageModel, AppModel);
+Element.Inherit(PageModel, app.Model);
 
 //////////////////////////////////////////////////////////////////////////////
-//  PageController < AppController < Controller
+//  PageController < app.Controller < Controller
 //
 //
 //////////////////////////////////////////////////////////////////////////////
 
 function PageController()
 {
-	AppController.call(this);
+	app.Controller.call(this);
 
 	mRegisterForm = new RegisterForm();
 }
 
-Element.Inherit(PageController, AppController);
+Element.Inherit(PageController, app.Controller);
 
 //////////////////////////////////////////////////////////////////////////////
 

@@ -6,9 +6,9 @@ var TEST_EMAIL = 'testuser@example.com';
 var TEST_USERNAME = 'testuser';
 var TEST_PASSWORD = '724Abc!';
 var LOGOUT_TOKEN_NAME = 'LogOutToken';
-var LOG_FILE_URL = 'http://localhost/default.log';
-var ACTIVATE_ACCOUNT_TOKEN_RE = /http:\/\/localhost\/activate-account.php\?token=(.+)/;
-var RESET_PASSWORD_TOKEN_RE = /http:\/\/localhost\/reset-password.php\?token=(.+)/;
+var LOG_FILE_URL = 'http://127.0.0.1/default.log';
+var ACTIVATE_ACCOUNT_TOKEN_RE = /http:\/\/127.0.0.1\/activate-account.php\?token=(.+)/;
+var RESET_PASSWORD_TOKEN_RE = /http:\/\/127.0.0.1\/reset-password.php\?token=(.+)/;
 
 ////////////////////////////////////////////////////////////////////////////////
 // Test
@@ -101,14 +101,8 @@ function LogOut()
 	Test.call(this);
 	var me = this;
 
-	//#region Test Data
-	var mData = {
-		LogOutToken: Helper.GetMetaContent(LOGOUT_TOKEN_NAME)
-	}
-	//#endregion Test Data
-
 	this.Run = function() { try {
-		gModel.LogOut(mData, me.Pass);
+		gModel.LogOut(me.Pass);
 	} catch (e) { me.Fail(e); }}
 }
 
@@ -255,13 +249,10 @@ function UpdatePassword()
 		Password: TEST_PASSWORD,
 		NewPassword: TEST_PASSWORD // providing the same password
 	}
-	var mLogOutData = {
-		LogOutToken: Helper.GetMetaContent(LOGOUT_TOKEN_NAME)
-	}
 	//#endregion Test Data
 
 	function onUpdatePassword() { try {
-		gModel.LogOut(mLogOutData, me.Pass);
+		gModel.LogOut(me.Pass);
 	} catch (e) { me.Fail(e); }}
 
 	function onLogIn() { try {
@@ -321,21 +312,18 @@ function TestSuite()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// PageModel < AppModel < Model
+// PageModel < app.Model < Model
 ////////////////////////////////////////////////////////////////////////////////
 
 function PageModel()
 {
-	AppModel.call(this);
+	app.Model.call(this);
 
 	this.Dummy = function(onSuccess) {
 		this.Get(Model.ActionURL('Dummy'), onSuccess);
 	}
 	this.LogIn = function(data, onSuccess) {
 		this.Post(Model.ActionURL('LogIn'), data, onSuccess);
-	}
-	this.LogOut = function(data, onSuccess) {
-		this.Post(Model.ActionURL('LogOut'), data, onSuccess);
 	}
 	this.RegisterAccount = function(data, onSuccess) {
 		this.Post(Model.ActionURL('RegisterAccount'), data, onSuccess);
@@ -354,15 +342,15 @@ function PageModel()
 	}
 }
 
-Element.Inherit(PageModel, AppModel);
+Element.Inherit(PageModel, app.Model);
 
 ////////////////////////////////////////////////////////////////////////////////
-// PageController < AppController < Controller
+// PageController < app.Controller < Controller
 ////////////////////////////////////////////////////////////////////////////////
 
 function PageController()
 {
-	AppController.call(this);
+	app.Controller.call(this);
 
 	//#region Private Variables
 	var mTestSuite = new TestSuite();
@@ -403,7 +391,7 @@ function PageController()
 		// Because ShowError can also be called from the handlers of the base
 		// Model class, this is the best place to stop the loading animation.
 		mRunButton.SetLoading(false);
-		AppController.prototype.ShowError.call(this, message); // call base method
+		app.Controller.prototype.ShowError.call(this, message); // call base method
 	}
 	this.OnTestRun = function(testName) {
 		passLast();
@@ -425,7 +413,7 @@ function PageController()
 	mRunButton.OnClick(onRunButtonClick);
 }
 
-Element.Inherit(PageController, AppController);
+Element.Inherit(PageController, app.Controller);
 
 ////////////////////////////////////////////////////////////////////////////////
 

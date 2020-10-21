@@ -29,36 +29,36 @@ function LogInForm()
 Element.Inherit(LogInForm, Form);
 
 //////////////////////////////////////////////////////////////////////////////
-//  PageModel < AppModel < Model
+//  PageModel < app.Model < Model
 //
 //
 //////////////////////////////////////////////////////////////////////////////
 
 function PageModel()
 {
-	AppModel.call(this);
+	app.Model.call(this);
 
 	this.LogIn = function(data, onSuccess, onComplete) {
 		this.Post(Model.ActionURL('LogIn'), data, onSuccess, onComplete);
 	}
 }
 
-Element.Inherit(PageModel, AppModel);
+Element.Inherit(PageModel, app.Model);
 
 //////////////////////////////////////////////////////////////////////////////
-//  PageController < AppController < Controller
+//  PageController < app.Controller < Controller
 //
 //
 //////////////////////////////////////////////////////////////////////////////
 
 function PageController()
 {
-	AppController.call(this);
+	app.Controller.call(this);
 
 	mLogInForm = new LogInForm();
 }
 
-Element.Inherit(PageController, AppController);
+Element.Inherit(PageController, app.Controller);
 
 //////////////////////////////////////////////////////////////////////////////
 

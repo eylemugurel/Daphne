@@ -6,30 +6,30 @@
 var index = {};
 
 /**
- * @summary Manages communication with the server.
+ * @summary Manages all the data-related logic.
  *
  * @class
- * @augments AppModel
+ * @augments app.Model
  */
 index.Model = function()
 {
-	AppModel.call(this);
+	app.Model.call(this);
 }
 
-Element.Inherit(index.Model, AppModel);
+Element.Inherit(index.Model, app.Model);
 
 /**
  * @summary Manages the components on the page.
  *
  * @class
- * @augments AppController
+ * @augments app.Controller
  */
 index.Controller = function()
 {
-	AppController.call(this);
+	app.Controller.call(this);
 }
 
-Element.Inherit(index.Controller, AppController);
+Element.Inherit(index.Controller, app.Controller);
 
 /**
  * The global model object.
