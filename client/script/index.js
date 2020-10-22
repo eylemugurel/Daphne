@@ -2,6 +2,9 @@
  * Provides functionality for the index page.
  *
  * @namespace
+ * @version 2.0
+ * @author Eylem Ugurel
+ * @license MIT
  */
 var index = {};
 

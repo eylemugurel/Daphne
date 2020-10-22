@@ -2,6 +2,9 @@
  * Provides functionality for the settings page.
  *
  * @namespace
+ * @version 2.0
+ * @author Eylem Ugurel
+ * @license MIT
  */
 var settings = {};
 
@@ -23,15 +26,15 @@ settings.PasswordForm = function()
 	var _this = this;
 
 	/**
-	 * Button which submits this form.
+	 * Instance of the button element which submits the form when clicked.
 	 *
 	 * @type {Button}
 	 */
 	var _submitButton = new Button('#PasswordForm_SubmitButton');
 
 	/**
-	 * Function to be called if the call to [UpdatePassword]{@link settings.Model#UpdatePassword}
-	 * succeeds. Displays a success message to the user.
+	 * Function to be called if the [UpdatePassword]{@link settings.Model#UpdatePassword}
+	 * method succeeds. Displays a success message to the user.
 	 *
 	 * @param message {string} Contains a human readable message.
 	 */
@@ -40,16 +43,17 @@ settings.PasswordForm = function()
 	}
 
 	/**
-	 * Function to be called when the call to [UpdatePassword]{@link settings.Model#UpdatePassword}
-	 * finishes. Resets the submit button from loading to normal state.
+	 * Function to be called when the [UpdatePassword]{@link settings.Model#UpdatePassword}
+	 * method finishes. Stops the loading indicator of the submit button.
 	 */
 	function onUpdatePasswordComplete() {
 		_submitButton.SetLoading(false);
 	}
 
 	/**
-	 * Triggered when the form is submitted. Changes the submit button to the
-	 * loading state, and calls [UpdatePassword]{@link settings.Model#UpdatePassword}.
+	 * Triggered when the form is submitted. Starts the loading indicator of the
+	 * submit button, and calls the [UpdatePassword]{@link settings.Model#UpdatePassword}
+	 * method.
 	 *
 	 * @param e {jQuery.Event} A jQuery Event object.
 	 */
@@ -111,7 +115,7 @@ settings.Controller = function()
 	app.Controller.call(this);
 
 	/**
-	 * Form for updating an account's password.
+	 * Instance of the form element for updating an account's password.
 	 *
 	 * @type {settings.PasswordForm}
 	 */

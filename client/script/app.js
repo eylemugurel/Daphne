@@ -2,6 +2,9 @@
  * Provides base functionality for all pages.
  *
  * @namespace
+ * @version 2.0
+ * @author Eylem Ugurel
+ * @license MIT
  */
 var app = {};
 
@@ -17,11 +20,12 @@ app.Root = function()
 	Element.call(this, ':root');
 
 	/**
-	 * Holds the default cursor style.
+	 * Holds the default cursor style to be restored when the loading indicator
+	 * is stopped.
 	 *
 	 * @type {string}
 	 */
-	var _defaultCursor = this.GetStyle('cursor');
+	var _defaultCursorStyle = this.GetStyle('cursor');
 
 	/**
 	 * Starts/stops the loading indicator.
@@ -33,7 +37,7 @@ app.Root = function()
 		if (isLoading === true)
 			this.SetStyle('cursor', 'progress');
 		else
-			this.SetStyle('cursor', _defaultCursor)
+			this.SetStyle('cursor', _defaultCursorStyle)
 	}
 }
 
@@ -49,18 +53,18 @@ Element.Inherit(app.Root, Element);
 app.Model = function()
 {
 	Model.call(this);
-
-	/**
-	 * Contains anti-CSRF token for the [LogOut]{@link app.Model#LogOut} method.
-	 *
-	 * @type {object}
-	 */
-	this.data = {
-		LogOutToken: Helper.GetMetaContent('LogOutToken')
-	};
 }
 
 Element.Inherit(app.Model, Model);
+
+/**
+ * Contains anti-CSRF token for the [LogOut]{@link app.Model#LogOut} method.
+ *
+ * @type {object}
+ */
+app.Model.prototype.data = {
+	LogOutToken: Helper.GetMetaContent('LogOutToken')
+};
 
 /**
  * Logs out the account of the current user.
@@ -86,14 +90,14 @@ app.Controller = function()
 	Controller.call(this);
 
 	/**
-	 * The root element.
+	 * Instance of the root element.
 	 *
 	 * @type {Element}
 	 */
 	var _root = new app.Root();
 
 	/**
-	 * A link (anchor) that logs out when clicked.
+	 * Instance of the link element that logs out when clicked.
 	 *
 	 * @type {Button}
 	 */

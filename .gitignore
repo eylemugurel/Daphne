@@ -1,3 +1,7 @@
 /.support/
 /doc/
-/default.log
+/Doxyfile
+/jsdoc.json
+/*.log
+/*.bat
+/*.sh
