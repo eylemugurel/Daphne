@@ -2,7 +2,7 @@
  * Provides base functionality for all pages.
  *
  * @namespace
- * @version 2.0
+ * @version 2.1
  * @author Eylem Ugurel
  * @license MIT
  */
@@ -58,15 +58,6 @@ app.Model = function()
 Element.Inherit(app.Model, Model);
 
 /**
- * Contains anti-CSRF token for the [LogOut]{@link app.Model#LogOut} method.
- *
- * @type {object}
- */
-app.Model.prototype.data = {
-	LogOutToken: Helper.GetMetaContent('LogOutToken')
-};
-
-/**
  * Logs out the account of the current user.
  *
  * @param onSuccess {function} A function to be called if the request
@@ -75,7 +66,7 @@ app.Model.prototype.data = {
  * finishes.
  */
 app.Model.prototype.LogOut = function(onSuccess, onComplete) {
-	this.Post(Model.ActionURL('LogOut'), this.data, onSuccess, onComplete);
+	this.Post(Model.ActionURL('LogOut'), { LogOutToken: Helper.GetMetaContent('LogOutToken') }, onSuccess, onComplete);
 }
 
 /**
@@ -90,14 +81,14 @@ app.Controller = function()
 	Controller.call(this);
 
 	/**
-	 * Instance of the root element.
+	 * The root element of the document.
 	 *
 	 * @type {Element}
 	 */
 	var _root = new app.Root();
 
 	/**
-	 * Instance of the link element that logs out when clicked.
+	 * The link element that logs out when clicked.
 	 *
 	 * @type {Button}
 	 */
@@ -120,8 +111,8 @@ app.Controller = function()
 	}
 
 	/**
-	 * Triggered when the log-out link is clicked. Starts the loading indicator,
-	 * and calls the [LogOut]{@link app.Model#LogOut} method.
+	 * Function to be called when the log-out link is clicked. Starts the
+	 * loading indicator, and calls the [LogOut]{@link app.Model#LogOut} method.
 	 */
 	function onLogOutLinkClick() {
 		_root.SetLoading(true);

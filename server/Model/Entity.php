@@ -609,7 +609,7 @@ abstract class Entity
 	 * Returns the table name of a given class name.
 	 *
 	 * @param $className A fully qualified class name, that can contain one or
-	 * more namespaces in it, e.g., `"Model\Account"`.
+	 * more namespaces in it, e.g. `"Model\Account"`.
 	 * @return Table name, e.g. `"Account"` for the example above.
 	 */
 	protected static function toTableName($className)

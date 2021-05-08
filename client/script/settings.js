@@ -26,7 +26,7 @@ settings.PasswordForm = function()
 	var _this = this;
 
 	/**
-	 * Instance of the button element which submits the form when clicked.
+	 * The button which submits the form.
 	 *
 	 * @type {Button}
 	 */
@@ -51,8 +51,8 @@ settings.PasswordForm = function()
 	}
 
 	/**
-	 * Triggered when the form is submitted. Starts the loading indicator of the
-	 * submit button, and calls the [UpdatePassword]{@link settings.Model#UpdatePassword}
+	 * Function to be called when the form is submitted. Starts the loading
+	 * indicator of the submit button, and calls the [UpdatePassword]{@link settings.Model#UpdatePassword}
 	 * method.
 	 *
 	 * @param e {jQuery.Event} A jQuery Event object.
@@ -115,7 +115,7 @@ settings.Controller = function()
 	app.Controller.call(this);
 
 	/**
-	 * Instance of the form element for updating an account's password.
+	 * The form for updating an account's password.
 	 *
 	 * @type {settings.PasswordForm}
 	 */

@@ -1,8 +1,8 @@
 /*******************************************************************************
  * app.css
  *
- * Revision     : 1.2
- * Last Changed : October 21, 2020 (19:56)
+ * Revision     : 1.3
+ * Last Changed : October 24, 2020 (10:32)
  * Author(s)    : Eylem Ugurel
  *
  * THIS CODE AND INFORMATION ARE PROVIDED "AS IS" WITHOUT WARRANTY OF ANY
@@ -32,13 +32,4 @@ BODY {
 	display: inline-block; /* Overrides Bootstrap's `display: block`. */
 	height: 20px; /* Same as .navbar-brand's `line-height`. */
 	vertical-align: bottom; /* For more precise vertical alignment. */
-}
-
-/*******************************************************************************
- * Facebook
- ******************************************************************************/
-
-/* Fix: Occasionally, the Comments plugin renders its width as `0px`. */
-DIV.fb-comments > SPAN > IFRAME {
-	width: 100% !important;
 }
